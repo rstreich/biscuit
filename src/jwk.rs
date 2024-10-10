@@ -336,7 +336,7 @@ impl AlgorithmParameters {
         }
         map.end()?;
         let json_u8 = serializer.into_inner();
-        Ok(BASE64URL_NOPAD.encode(ring::digest::digest(algorithm.0, &json_u8).as_ref()))
+        Ok(BASE64URL_NOPAD.encode(aws_lc_rs::digest::digest(algorithm.0, &json_u8).as_ref()))
     }
 }
 

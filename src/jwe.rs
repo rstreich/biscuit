@@ -618,7 +618,7 @@ where
 mod tests {
     use std::str::FromStr;
 
-    use ring::rand::SecureRandom;
+    use aws_lc_rs::rand::SecureRandom;
     use serde_test::{assert_tokens, Token};
 
     use super::*;

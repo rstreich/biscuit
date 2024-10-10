@@ -14,7 +14,7 @@ use crate::jwk;
 use crate::{CompactJson, Empty};
 
 use num_bigint::BigUint;
-use ring::signature;
+use aws_lc_rs::signature;
 use serde::{self, de::DeserializeOwned, Deserialize, Serialize};
 use std::sync::Arc;
 
@@ -204,7 +204,6 @@ impl Secret {
         let key_pair = signature::EcdsaKeyPair::from_pkcs8(
             ring_algorithm,
             der.as_slice(),
-            &ring::rand::SystemRandom::new(),
         )?;
         Ok(Secret::EcdsaKeyPair(Arc::new(key_pair)))
     }

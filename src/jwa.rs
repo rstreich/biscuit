@@ -7,10 +7,10 @@
 use std::fmt;
 
 use once_cell::sync::Lazy;
-use ring::constant_time::verify_slices_are_equal;
-use ring::rand::SystemRandom;
-use ring::signature::KeyPair;
-use ring::{aead, hmac, signature};
+use aws_lc_rs::constant_time::verify_slices_are_equal;
+use aws_lc_rs::rand::SystemRandom;
+use aws_lc_rs::signature::KeyPair;
+use aws_lc_rs::{aead, hmac, signature};
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 
@@ -19,7 +19,7 @@ use crate::jwk;
 use crate::jws::Secret;
 use crate::Empty;
 
-pub use ring::rand::SecureRandom;
+pub use aws_lc_rs::rand::SecureRandom;
 
 /// AES GCM Tag Size, in bytes
 const AES_GCM_TAG_SIZE: usize = 128 / 8;
@@ -307,7 +307,7 @@ impl SignatureAlgorithm {
         };
 
         let rng = SystemRandom::new();
-        let mut signature = vec![0; key_pair.public().modulus_len()];
+        let mut signature = vec![0; key_pair.public_modulus_len()];
         let padding_algorithm: &dyn signature::RsaEncoding = match algorithm {
             SignatureAlgorithm::RS256 => &signature::RSA_PKCS1_SHA256,
             SignatureAlgorithm::RS384 => &signature::RSA_PKCS1_SHA384,
@@ -789,7 +789,8 @@ pub(crate) fn random_aes_gcm_nonce() -> Result<Vec<u8>, Error> {
 
 #[cfg(test)]
 mod tests {
-    use ring::constant_time::verify_slices_are_equal;
+    use aws_lc_rs::constant_time::verify_slices_are_equal;
+    pub use aws_lc_rs::rand::SecureRandom;
 
     use super::*;
     use crate::CompactPart;

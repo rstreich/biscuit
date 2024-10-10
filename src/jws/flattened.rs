@@ -159,7 +159,7 @@ impl SignedData {
     /// use biscuit::jwa::SignatureAlgorithm;
     /// use biscuit::jws::{Header, RegisteredHeader, Secret, Signable, SignedData};
     /// use biscuit::Empty;
-    /// use ring::signature::{ECDSA_P256_SHA256_FIXED_SIGNING, EcdsaKeyPair};
+    /// use aws_lc_rs::signature::{ECDSA_P256_SHA256_FIXED_SIGNING, EcdsaKeyPair};
     /// use std::sync::Arc;
     ///
     /// let header = Header::<Empty>::from(RegisteredHeader {
@@ -170,10 +170,9 @@ impl SignedData {
     /// let data = Signable::new(header, payload.to_vec())?;
     /// let pkcs8 = EcdsaKeyPair::generate_pkcs8(
     ///     &ECDSA_P256_SHA256_FIXED_SIGNING,
-    ///     &ring::rand::SystemRandom::new())?;
+    ///     &aws_lc_rs::rand::SystemRandom::new())?;
     /// let keypair = EcdsaKeyPair::from_pkcs8(
-    ///     &ECDSA_P256_SHA256_FIXED_SIGNING, pkcs8.as_ref(),
-    ///     &ring::rand::SystemRandom::new())?;
+    ///     &ECDSA_P256_SHA256_FIXED_SIGNING, pkcs8.as_ref())?;
     /// let secret = Secret::EcdsaKeyPair(Arc::new(keypair));
     /// let signed = SignedData::sign(data, secret)?;
     /// # Ok::<(), biscuit::errors::Error>(())
