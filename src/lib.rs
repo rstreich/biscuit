@@ -111,7 +111,7 @@ use std::iter;
 use std::ops::Deref;
 use std::str::{self, FromStr};
 
-use chrono::{DateTime, Duration, NaiveDateTime, Utc};
+use chrono::{DateTime, Duration, Utc};
 use data_encoding::BASE64URL_NOPAD;
 use serde::de::{self, DeserializeOwned};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
@@ -698,11 +698,7 @@ impl From<Timestamp> for DateTime<Utc> {
 
 impl From<i64> for Timestamp {
     fn from(timestamp: i64) -> Self {
-        DateTime::<Utc>::from_utc(
-            NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap(),
-            Utc,
-        )
-        .into()
+        DateTime::<Utc>::from_timestamp(timestamp, 0).unwrap().into()
     }
 }
 
@@ -721,10 +717,7 @@ impl<'de> Deserialize<'de> for Timestamp {
         D: Deserializer<'de>,
     {
         let timestamp = i64::deserialize(deserializer)?;
-        Ok(Timestamp(DateTime::<Utc>::from_utc(
-            NaiveDateTime::from_timestamp_opt(timestamp, 0).unwrap(),
-            Utc,
-        )))
+        Ok(DateTime::<Utc>::from_timestamp(timestamp, 0).unwrap().into())
     }
 }
 
